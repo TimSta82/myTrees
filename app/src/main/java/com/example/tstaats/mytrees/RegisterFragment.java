@@ -8,13 +8,11 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,80 +21,85 @@ import com.backendless.BackendlessUser;
 import com.backendless.async.callback.AsyncCallback;
 import com.backendless.exceptions.BackendlessFault;
 
-public class LoginFragment extends Fragment {
+public class RegisterFragment extends Fragment {
 
-    private static final String TAG = "LoginFragment";
+    private static final String TAG = "RegisterFragment";
 
     private MainActivity mainActivity;
     private View mProgressView;
     private View mLoginFormView;
     private TextView tvLoad;
 
-    private ImageView ivLogin;
-    private EditText etEmail, etPassword;
-    private Button btnLogin, btnRegister;
-
+    private EditText etName, etEmail, etPassword, etPasswordConfirm;
+    private Button btnRegister;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_register, container, false);
 
-        View view = inflater.inflate(R.layout.fragment_login, container, false);
-
-        initLogin(view);
-
-        btnLogin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String email = etEmail.getText().toString().trim();
-                String password = etPassword.getText().toString().trim();
-
-                if (email.isEmpty() || password.isEmpty()){
-                    Toast.makeText(mainActivity, "Please enter empty fields", Toast.LENGTH_SHORT).show();
-                } else {
-                    showProgress(true);
-                    tvLoad.setText(getResources().getString(R.string.login));
-
-                    Backendless.UserService.login(email, password, new AsyncCallback<BackendlessUser>() {
-                        @Override
-                        public void handleResponse(BackendlessUser response) {
-                            ApplicationClass.user = response;
-                            Toast.makeText(mainActivity, "Logged in successfully", Toast.LENGTH_SHORT).show();
-
-                            mainActivity.fragmentSwitcher(new TreeListFragment(), false);
-                        }
-
-                        @Override
-                        public void handleFault(BackendlessFault fault) {
-
-                        }
-                    });
-                }
-            }
-        });
+        initRegister(view);
 
         btnRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                RegisterFragment registerFragment = new RegisterFragment();
-                mainActivity.fragmentSwitcher(registerFragment, true);
+                String name = etName.getText().toString().trim();
+                String email = etEmail.getText().toString().trim();
+                String password = etPassword.getText().toString().trim();
+                String passwordConfirm = etPasswordConfirm.getText().toString().trim();
+
+                if (name.isEmpty() || email.isEmpty() || password.isEmpty() || passwordConfirm.isEmpty()){
+                    Toast.makeText(mainActivity, "Please enter empty fields", Toast.LENGTH_SHORT).show();
+                } else {
+                    if (password.equals(passwordConfirm)){
+                        BackendlessUser user = new BackendlessUser();
+                        user.setEmail(email);
+                        user.setPassword(password);
+                        user.setProperty("name", name);
+
+                        showProgress(true);
+                        tvLoad.setText(getResources().getString(R.string.registering));
+
+                        Backendless.UserService.register(user, new AsyncCallback<BackendlessUser>() {
+                            @Override
+                            public void handleResponse(BackendlessUser response) {
+                                Toast.makeText(mainActivity, "User successfully registered", Toast.LENGTH_SHORT).show();
+                                mainActivity.fragmentSwitcher(new LoginFragment(),  false);
+                            }
+
+                            @Override
+                            public void handleFault(BackendlessFault fault) {
+                                // e.g. user already exists
+                                Toast.makeText(mainActivity, "Error: " + fault.getMessage(), Toast.LENGTH_SHORT).show();
+                                showProgress(false);
+                            }
+                        });
+
+                    } else {
+                        Toast.makeText(mainActivity, "Passwords doesnt match", Toast.LENGTH_SHORT).show();
+                        etPassword.setText("");
+                        etPasswordConfirm.setText("");
+                    }
+
+                }
             }
         });
-
-        Log.d(TAG, "onCreateView: is called");
 
         return view;
     }
 
-    private void initLogin(View view) {
-        mProgressView = view.findViewById(R.id.login_progress);
-        mLoginFormView = view.findViewById(R.id.login_form);
+    private void initRegister(View view) {
+
+        mProgressView = view.findViewById(R.id.register_progress);
+        mLoginFormView = view.findViewById(R.id.register_form);
         tvLoad = view.findViewById(R.id.tvLoad);
 
+        etName = view.findViewById(R.id.et_name);
         etEmail = view.findViewById(R.id.et_email);
         etPassword = view.findViewById(R.id.et_password);
-        btnLogin = view.findViewById(R.id.btn_login);
+        etPasswordConfirm = view.findViewById(R.id.et_confirm_password);
         btnRegister = view.findViewById(R.id.btn_register);
+
     }
 
     /**
@@ -150,6 +153,5 @@ public class LoginFragment extends Fragment {
         super.onCreate(savedInstanceState);
         mainActivity = (MainActivity)getActivity();
     }
-
 
 }
