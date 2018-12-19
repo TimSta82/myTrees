@@ -38,6 +38,7 @@ public class NewTreeFragment extends Fragment {
     private ImageView ivTree;
     private EditText etTreeName, etTreeDescription;
     private Button btnConfirm, btnCamera;
+    private Bitmap treeBitmap;
 
     @Nullable
     @Override
@@ -115,8 +116,8 @@ public class NewTreeFragment extends Fragment {
 
         if (getArguments() != null){
             byte[] byteArray = getArguments().getByteArray("image");
-            Bitmap bitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
-            ivTree.setImageBitmap(bitmap);
+            treeBitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
+            ivTree.setImageBitmap(treeBitmap);
         }
 
     }
