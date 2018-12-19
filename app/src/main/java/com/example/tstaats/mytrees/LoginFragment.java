@@ -22,6 +22,7 @@ import com.backendless.Backendless;
 import com.backendless.BackendlessUser;
 import com.backendless.async.callback.AsyncCallback;
 import com.backendless.exceptions.BackendlessFault;
+import com.backendless.persistence.local.UserIdStorageFactory;
 
 public class LoginFragment extends Fragment {
 
@@ -63,14 +64,14 @@ public class LoginFragment extends Fragment {
                             ApplicationClass.user = response;
                             Toast.makeText(mainActivity, "Logged in successfully", Toast.LENGTH_SHORT).show();
 
-                            mainActivity.fragmentSwitcher(new TreeListFragment(), false);
+                            mainActivity.fragmentSwitcher(new MainFragment(), false);
                         }
 
                         @Override
                         public void handleFault(BackendlessFault fault) {
 
                         }
-                    });
+                    }, true);
                 }
             }
         });
@@ -83,7 +84,40 @@ public class LoginFragment extends Fragment {
             }
         });
 
-        Log.d(TAG, "onCreateView: is called");
+        showProgress(true);
+        tvLoad.setText(getResources().getString(R.string.logged_user));
+
+        Backendless.UserService.isValidLogin(new AsyncCallback<Boolean>() {
+            @Override
+            public void handleResponse(Boolean response) {
+                if (response){
+                    String userObjectId = UserIdStorageFactory.instance().getStorage().get();
+
+                    tvLoad.setText(getResources().getString(R.string.login));
+                    Backendless.Data.of(BackendlessUser.class).findById(userObjectId, new AsyncCallback<BackendlessUser>() {
+                        @Override
+                        public void handleResponse(BackendlessUser response) {
+                            ApplicationClass.user = response;
+                            mainActivity.fragmentSwitcher(new MainFragment(), false);
+                        }
+
+                        @Override
+                        public void handleFault(BackendlessFault fault) {
+                            Toast.makeText(mainActivity, "Error: " + fault.getMessage(), Toast.LENGTH_SHORT).show();
+                            showProgress(false);
+                        }
+                    });
+                } else {
+                    showProgress(false);
+                }
+            }
+
+            @Override
+            public void handleFault(BackendlessFault fault) {
+                Toast.makeText(mainActivity, "Error: " + fault.getMessage(), Toast.LENGTH_SHORT).show();
+                showProgress(false);
+            }
+        });
 
         return view;
     }
