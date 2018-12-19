@@ -25,6 +25,8 @@ public class MainActivity extends AppCompatActivity {
         LoginFragment loginFragment = new LoginFragment();
         fragmentSwitcher(loginFragment, true);
 
+        Log.d(TAG, "onCreate: test commit");
+
         
     }
 
