@@ -12,6 +12,7 @@ import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,10 +25,13 @@ import android.widget.Toast;
 import com.backendless.Backendless;
 import com.backendless.async.callback.AsyncCallback;
 import com.backendless.exceptions.BackendlessFault;
+import com.backendless.files.BackendlessFile;
 
 public class NewTreeFragment extends Fragment {
 
     private static final String TAG = "NewTreeFragment";
+
+    public static final String BACKENDLESS_FILE_PATH = "treepics";
 
     private MainActivity mainActivity;
 
@@ -62,17 +66,38 @@ public class NewTreeFragment extends Fragment {
                 String treeName = etTreeName.getText().toString().trim();
                 String treeDescription = etTreeDescription.getText().toString().trim();
 
-                if (treeName.isEmpty() || treeDescription.isEmpty()) {
+                if (treeName.isEmpty() || treeDescription.isEmpty() || getArguments() == null) {
                     //showProgress(true);
                     Toast.makeText(mainActivity, "Enter empty fields please", Toast.LENGTH_SHORT).show();
                 } else {
-                    Tree tree = new Tree();
+                    final Tree tree = new Tree();
                     tree.setTreeName(treeName);
                     tree.setTreeDescription(treeDescription);
                     tree.setUserEmail(ApplicationClass.user.getEmail());
 
                     showProgress(true);
                     tvLoad.setText(getResources().getString(R.string.create_new_tree));
+
+                    tvLoad.setText("Busy uploading image... please wait...");
+
+                    String fileName = treeName + ".png";
+
+                    Backendless.Files.Android.upload(treeBitmap, Bitmap.CompressFormat.PNG,100, fileName, BACKENDLESS_FILE_PATH, new AsyncCallback<BackendlessFile>() {
+                        @Override
+                        public void handleResponse(BackendlessFile response) {
+
+                            tree.setTreeImageUrl(response.getFileURL());
+                            Log.d(TAG, "handleResponse: treeImageUrl: " + response.getFileURL());
+                            Toast.makeText(mainActivity, "Upload successful", Toast.LENGTH_SHORT).show();
+                            showProgress(false);
+                        }
+
+                        @Override
+                        public void handleFault(BackendlessFault fault) {
+                            Toast.makeText(mainActivity, "Error: " + fault.getMessage(), Toast.LENGTH_SHORT).show();
+                            showProgress(false);
+                        }
+                    });
 
                     Backendless.Persistence.save(tree, new AsyncCallback<Tree>() {
                         @Override
