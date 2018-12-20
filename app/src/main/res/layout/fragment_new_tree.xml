@@ -62,9 +62,9 @@
             android:id="@+id/btn_camera"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
+            android:layout_marginStart="20dp"
             android:layout_marginTop="30dp"
-            android:layout_marginEnd="8dp"
+            android:layout_marginEnd="20dp"
             android:background="@drawable/button_layout"
             android:text="Take a picture" />
 
@@ -93,9 +93,9 @@
             android:id="@+id/btn_confirm"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
+            android:layout_marginStart="20dp"
             android:layout_marginTop="30dp"
-            android:layout_marginEnd="8dp"
+            android:layout_marginEnd="20dp"
             android:background="@drawable/button_layout"
             android:text="Confirm" />
 
