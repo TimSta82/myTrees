@@ -8,12 +8,14 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.lang.reflect.Array;
+import com.nostra13.universalimageloader.core.ImageLoader;
+
 import java.util.ArrayList;
 
 public class TreeInfoAdapter extends RecyclerView.Adapter<TreeInfoAdapter.TreeInfoViewHolder> {
 
     private ArrayList<Tree> mList;
+    private ImageLoader mImageLoader;
 
     public static class TreeInfoViewHolder extends RecyclerView.ViewHolder{
 
@@ -39,8 +41,9 @@ public class TreeInfoAdapter extends RecyclerView.Adapter<TreeInfoAdapter.TreeIn
         return holder;
     }
 
-    public TreeInfoAdapter(ArrayList<Tree> treeList){
+    public TreeInfoAdapter(ArrayList<Tree> treeList, ImageLoader loader){
         mList = treeList;
+        mImageLoader = loader;
     }
 
     @Override
@@ -48,7 +51,11 @@ public class TreeInfoAdapter extends RecyclerView.Adapter<TreeInfoAdapter.TreeIn
 
         Tree currentTree = mList.get(position);
 
-        holder.mImageView.setImageResource(R.drawable.bonsai);
+//        if (mList.size() > 1){
+//            holder.mImageView.setImageResource(R.drawable.bonsai);
+//        } else {
+            mImageLoader.displayImage(mList.get(position).getTreeImageUrl(), holder.mImageView);
+//        }
         holder.mTreeInfoDate.setText(currentTree.getCreated().toString());
         holder.mTreeInfoDescription.setText(currentTree.getTreeDescription());
     }

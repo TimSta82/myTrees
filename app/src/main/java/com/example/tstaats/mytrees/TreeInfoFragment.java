@@ -74,7 +74,7 @@ public class TreeInfoFragment extends Fragment {
             tvTreeInfoName.setText(currentTree.getTreeName());
             mTreeInfoList.add(currentTree);
 
-            mAdapter = new TreeInfoAdapter(mTreeInfoList);
+            mAdapter = new TreeInfoAdapter(mTreeInfoList, ApplicationClass.loader);
 
             mRecyclerView.setLayoutManager(mLayoutManager);
             mRecyclerView.setAdapter(mAdapter);
