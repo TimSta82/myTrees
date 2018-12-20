@@ -99,10 +99,13 @@ public class NewTreeFragment extends Fragment {
                                 public void handleResponse(Tree response) {
                                     Toast.makeText(mainActivity, "Tree saved successfully", Toast.LENGTH_SHORT).show();
 
-                                    showProgress(false);
-
-                                    etTreeName.setText("");
-                                    etTreeDescription.setText("");
+                                    mainActivity.fragmentSwitcher(new MainFragment(), false);
+//                                    showProgress(false);
+//
+//                                    etTreeName.setText("");
+//                                    etTreeDescription.setText("");
+//                                    hideViews();
+//                                    resetTreeImage();
 
                                 }
 
@@ -148,8 +151,27 @@ public class NewTreeFragment extends Fragment {
             byte[] byteArray = getArguments().getByteArray("image");
             treeBitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
             ivTree.setImageBitmap(treeBitmap);
+            showViews();
+        } else {
+            hideViews();
         }
 
+    }
+
+    private void showViews() {
+        etTreeName.setVisibility(View.VISIBLE);
+        etTreeDescription.setVisibility(View.VISIBLE);
+        btnConfirm.setVisibility(View.VISIBLE);
+    }
+
+    public void resetTreeImage(){
+        ivTree.setImageResource(R.drawable.bonsai);
+    }
+
+    public void hideViews(){
+        etTreeName.setVisibility(View.INVISIBLE);
+        etTreeDescription.setVisibility(View.INVISIBLE);
+        btnConfirm.setVisibility(View.INVISIBLE);
     }
 
     @Override
