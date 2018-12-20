@@ -50,10 +50,6 @@ public class TreeListFragment extends Fragment {
 
         initContactList(view);
 
-        ImageLoaderConfiguration configuration = new ImageLoaderConfiguration.Builder(getContext()).build();
-        ImageLoader.getInstance().init(configuration);
-
-
         /**
          * deleting row item via long click
          */
@@ -94,7 +90,7 @@ public class TreeListFragment extends Fragment {
 
                 Toast.makeText(mainActivity, "Trees loaded successful", Toast.LENGTH_SHORT).show();
                 ApplicationClass.treeList = response;
-                adapter = new TreeListAdapter(mainActivity, response, ImageLoader.getInstance());
+                adapter = new TreeListAdapter(mainActivity, response, ApplicationClass.loader);
                 lvList.setAdapter(adapter);
                 showProgress(false);
             }
