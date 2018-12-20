@@ -15,6 +15,7 @@
         android:layout_marginEnd="20dp"
         android:background="@drawable/button_layout"
         android:text="List of Trees"
+        android:textColor="#ffffff"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -27,6 +28,7 @@
         android:layout_marginTop="10dp"
         android:layout_marginEnd="20dp"
         android:background="@drawable/button_layout"
+        android:textColor="#ffffff"
         android:text="Create new tree"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
