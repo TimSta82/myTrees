@@ -43,6 +43,7 @@ public class NewTreeFragment extends Fragment {
     private EditText etTreeName, etTreeDescription;
     private Button btnConfirm, btnCamera;
     private Bitmap treeBitmap;
+    private Tree mTree;
 
     @Nullable
     @Override
@@ -70,13 +71,12 @@ public class NewTreeFragment extends Fragment {
                     //showProgress(true);
                     Toast.makeText(mainActivity, "Enter empty fields please", Toast.LENGTH_SHORT).show();
                 } else {
-                    final Tree tree = new Tree();
-                    tree.setTreeName(treeName);
-                    tree.setTreeDescription(treeDescription);
-                    tree.setUserEmail(ApplicationClass.user.getEmail());
+                    mTree = new Tree();
+                    mTree.setTreeName(treeName);
+                    mTree.setTreeDescription(treeDescription);
+                    mTree.setUserEmail(ApplicationClass.user.getEmail());
 
                     showProgress(true);
-                    tvLoad.setText(getResources().getString(R.string.create_new_tree));
 
                     tvLoad.setText("Busy uploading image... please wait...");
 
@@ -86,10 +86,32 @@ public class NewTreeFragment extends Fragment {
                         @Override
                         public void handleResponse(BackendlessFile response) {
 
-                            tree.setTreeImageUrl(response.getFileURL());
+                            mTree.setTreeImageUrl(response.getFileURL());
                             Log.d(TAG, "handleResponse: treeImageUrl: " + response.getFileURL());
                             Toast.makeText(mainActivity, "Upload successful", Toast.LENGTH_SHORT).show();
                             showProgress(false);
+
+                            showProgress(true);
+                            tvLoad.setText(getResources().getString(R.string.create_new_tree));
+
+                            Backendless.Persistence.save(mTree, new AsyncCallback<Tree>() {
+                                @Override
+                                public void handleResponse(Tree response) {
+                                    Toast.makeText(mainActivity, "Tree saved successfully", Toast.LENGTH_SHORT).show();
+
+                                    showProgress(false);
+
+                                    etTreeName.setText("");
+                                    etTreeDescription.setText("");
+
+                                }
+
+                                @Override
+                                public void handleFault(BackendlessFault fault) {
+                                    Toast.makeText(mainActivity, "Error: " + fault.getMessage(), Toast.LENGTH_SHORT).show();
+                                    showProgress(false);
+                                }
+                            });
                         }
 
                         @Override
@@ -99,24 +121,7 @@ public class NewTreeFragment extends Fragment {
                         }
                     });
 
-                    Backendless.Persistence.save(tree, new AsyncCallback<Tree>() {
-                        @Override
-                        public void handleResponse(Tree response) {
-                            Toast.makeText(mainActivity, "Tree saved successfully", Toast.LENGTH_SHORT).show();
 
-                            showProgress(false);
-
-                            etTreeName.setText("");
-                            etTreeDescription.setText("");
-
-                        }
-
-                        @Override
-                        public void handleFault(BackendlessFault fault) {
-                            Toast.makeText(mainActivity, "Error: " + fault.getMessage(), Toast.LENGTH_SHORT).show();
-                            showProgress(false);
-                        }
-                    });
                 }
 
             }
