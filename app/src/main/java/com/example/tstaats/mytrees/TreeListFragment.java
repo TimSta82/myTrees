@@ -39,7 +39,7 @@ public class TreeListFragment extends Fragment {
     private TextView tvLoad;
 
     private TextView tvListOfTrees;
-    private TreeAdapter adapter;
+    private TreeListAdapter adapter;
 
 
     @Nullable
@@ -53,6 +53,17 @@ public class TreeListFragment extends Fragment {
         ImageLoaderConfiguration configuration = new ImageLoaderConfiguration.Builder(getContext()).build();
         ImageLoader.getInstance().init(configuration);
 
+
+        /**
+         * deleting row item via long click
+         */
+//        lvList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+//            @Override
+//            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+//                return false;
+//            }
+//        });
+
         lvList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -60,9 +71,9 @@ public class TreeListFragment extends Fragment {
                 Bundle args = new Bundle();
                 args.putInt("position", position);
 
-//                Fragment contactInfoFragment = new ContactInfoFragment();
-//                contactInfoFragment.setArguments(args);
-//                mainActivity.fragmentSwitcher(contactInfoFragment, "ContactInfoFragment", true);
+                Fragment treeInfoFragment = new TreeInfoFragment();
+                treeInfoFragment.setArguments(args);
+                mainActivity.fragmentSwitcher(treeInfoFragment, true);
 
             }
         });
@@ -83,7 +94,7 @@ public class TreeListFragment extends Fragment {
 
                 Toast.makeText(mainActivity, "Trees loaded successful", Toast.LENGTH_SHORT).show();
                 ApplicationClass.treeList = response;
-                adapter = new TreeAdapter(mainActivity, response, ImageLoader.getInstance());
+                adapter = new TreeListAdapter(mainActivity, response, ImageLoader.getInstance());
                 lvList.setAdapter(adapter);
                 showProgress(false);
             }

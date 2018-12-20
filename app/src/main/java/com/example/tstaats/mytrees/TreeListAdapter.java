@@ -15,14 +15,14 @@ import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
 import java.util.List;
 
-public class TreeAdapter extends ArrayAdapter<Tree> {
+public class TreeListAdapter extends ArrayAdapter<Tree> {
 
     // Context is the class that will be using this adapter
     private Context context;
     private List<Tree> trees;
     private ImageLoader imageLoader;
 
-    public TreeAdapter(Context context, List<Tree> list, ImageLoader imageLoader){
+    public TreeListAdapter(Context context, List<Tree> list, ImageLoader imageLoader){
         super(context, R.layout.row_layout, list);
         this.context = context;
         this.trees = list;
