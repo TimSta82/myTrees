@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +21,8 @@ import com.backendless.Backendless;
 import com.backendless.async.callback.AsyncCallback;
 import com.backendless.exceptions.BackendlessFault;
 import com.backendless.persistence.DataQueryBuilder;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
 import java.util.List;
 
@@ -36,7 +39,7 @@ public class TreeListFragment extends Fragment {
     private TextView tvLoad;
 
     private TextView tvListOfTrees;
-    //private ContactAdapter adapter;
+    private TreeAdapter adapter;
 
 
     @Nullable
@@ -46,6 +49,9 @@ public class TreeListFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_tree_list, container, false);
 
         initContactList(view);
+
+        ImageLoaderConfiguration configuration = new ImageLoaderConfiguration.Builder(getContext()).build();
+        ImageLoader.getInstance().init(configuration);
 
         lvList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -66,7 +72,7 @@ public class TreeListFragment extends Fragment {
         DataQueryBuilder queryBuilder = DataQueryBuilder.create();
         queryBuilder.setWhereClause(whereClause);
         // for sorting the data
-        queryBuilder.setGroupBy("name");
+        queryBuilder.setGroupBy("treeName");
 
         showProgress(true);
         tvLoad.setText(getResources().getString(R.string.get_contacts));
@@ -75,16 +81,17 @@ public class TreeListFragment extends Fragment {
             @Override
             public void handleResponse(List<Tree> response) {
 
-                Toast.makeText(mainActivity, "Contacts loaded successful", Toast.LENGTH_SHORT).show();
+                Toast.makeText(mainActivity, "Trees loaded successful", Toast.LENGTH_SHORT).show();
                 ApplicationClass.treeList = response;
-//                adapter = new ContactAdapter(mainActivity, response);
-//                lvList.setAdapter(adapter);
+                adapter = new TreeAdapter(mainActivity, response, ImageLoader.getInstance());
+                lvList.setAdapter(adapter);
                 showProgress(false);
             }
 
             @Override
             public void handleFault(BackendlessFault fault) {
                 Toast.makeText(mainActivity, "Error: " + fault.getMessage(), Toast.LENGTH_SHORT).show();
+                Log.d(TAG, "handleFault: " + fault.getMessage());
                 showProgress(false);
             }
         });
