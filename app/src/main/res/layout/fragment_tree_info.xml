@@ -49,6 +49,7 @@
             android:layout_height="wrap_content"
             android:padding="4dp"
             android:layout_below="@id/text_tree_info_name"
+            android:layout_above="@id/btn_add_treestate"
             android:scrollbars="vertical"
             android:background="@color/colorPrimary">
 
