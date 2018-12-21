@@ -1,55 +1,87 @@
 package com.example.tstaats.mytrees;
 
-import android.content.Context;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
 import java.util.List;
 
-public class TreeListAdapter extends ArrayAdapter<Tree> {
+public class TreeListAdapter extends RecyclerView.Adapter<TreeListAdapter.TreeListViewHolder> {
 
-    // Context is the class that will be using this adapter
-    private Context context;
-    private List<Tree> trees;
-    private ImageLoader imageLoader;
+    private static final String TAG = "TreeListAdapter";
 
-    public TreeListAdapter(Context context, List<Tree> list, ImageLoader imageLoader){
-        super(context, R.layout.row_layout, list);
-        this.context = context;
-        this.trees = list;
-        this.imageLoader = imageLoader;
+    private List<Tree> mTreeList;
+    private ImageLoader mImageLoader;
+    private OnItemClickListener mListener;
 
+    public interface OnItemClickListener{
+        void onItemClick(int position);
+    }
+
+    public void setOnItemClickListener(OnItemClickListener listener){
+        mListener = listener;
+    }
+
+    public static class TreeListViewHolder extends RecyclerView.ViewHolder{
+
+        public ImageView mImageView;
+        public TextView mTreeName;
+        public TextView mTreeDate;
+
+        public TreeListViewHolder(@NonNull View itemView, final OnItemClickListener listener) {
+            super(itemView);
+            mImageView = itemView.findViewById(R.id.image_tree_thumb);
+            mTreeName = itemView.findViewById(R.id.text_tree_name);
+            mTreeDate = itemView.findViewById(R.id.text_tree_date);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (listener != null){
+                        int position = getAdapterPosition();
+                        if (position != RecyclerView.NO_POSITION){
+                            listener.onItemClick(position);
+                        }
+                    }
+                }
+            });
+        }
+    }
+
+    public TreeListAdapter(List<Tree> trees, ImageLoader loader){
+        mTreeList = trees;
+        mImageLoader = loader;
     }
 
     @NonNull
     @Override
-    public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+    public TreeListViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int i) {
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.row_layout, parent, false);
+        TreeListViewHolder holder = new TreeListViewHolder(v, mListener);
 
-        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        convertView = inflater.inflate(R.layout.row_layout, parent, false);
+        return holder;
+    }
 
+    @Override
+    public void onBindViewHolder(@NonNull TreeListViewHolder holder, int position) {
 
+        Tree currentTree = mTreeList.get(position);
 
-        ImageView ivTreeThumb = convertView.findViewById(R.id.image_tree_thumb);
-        TextView tvTreeName = convertView.findViewById(R.id.text_tree_name);
-        TextView tvTreeDate = convertView.findViewById(R.id.text_tree_date);
+        mImageLoader.displayImage(mTreeList.get(position).getTreeImageUrl(), holder.mImageView);
+        holder.mTreeName.setText(currentTree.getTreeName());
+        holder.mTreeDate.setText(currentTree.getCreated().toString());
 
-        imageLoader.displayImage(trees.get(position).getTreeImageUrl(), ivTreeThumb);
+    }
 
-        tvTreeName.setText(trees.get(position).getTreeName());
-        tvTreeDate.setText(trees.get(position).getCreated().toString());
-
-
-        return convertView;
-
+    @Override
+    public int getItemCount() {
+        return mTreeList.size();
     }
 }
