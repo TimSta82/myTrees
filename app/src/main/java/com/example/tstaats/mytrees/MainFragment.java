@@ -30,7 +30,11 @@ public class MainFragment extends Fragment {
         btnNewTree.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mainActivity.fragmentSwitcher(new NewTreeFragment(), true);
+                Fragment newTreeFragment = new NewTreeFragment();
+                Bundle args = new Bundle();
+                args.putString(mainActivity.ORIGIN, TAG);
+                newTreeFragment.setArguments(args);
+                mainActivity.fragmentSwitcher(newTreeFragment, false);
             }
         });
 

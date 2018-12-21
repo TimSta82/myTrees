@@ -17,6 +17,12 @@ import java.io.ByteArrayOutputStream;
 public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "MainActivity";
+    public static final String ORIGIN = "origin";
+    public static final String MAIN_FRAGMENT = "MainFragment";
+    public static final String TREE_INFO_FRAGMENT = "TreeInfoFragment";
+    public static final int REQUEST_CODE_MAINFRAGMENT = 0;
+    public static final int REQUEST_CODE_TREEINFOFRAGMENT = 1;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,7 +63,6 @@ public class MainActivity extends AppCompatActivity {
         args.putByteArray("image", byteArray);
         NewTreeFragment fragment = new NewTreeFragment();
         fragment.setArguments(args);
-
         fragmentSwitcher(fragment, false);
     }
 }
