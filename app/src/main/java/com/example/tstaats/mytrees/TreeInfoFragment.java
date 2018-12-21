@@ -45,10 +45,12 @@ public class TreeInfoFragment extends Fragment {
     private TextView tvTreeInfoName;
     private Button btnAddTreeState;
     private RecyclerView mRecyclerView;
-    private RecyclerView.Adapter mAdapter;
+    private TreeInfoAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
 
     private ArrayList<Tree> mTreeInfoList;
+
+    private int count = 0;
 
 
     private int position;
@@ -79,6 +81,14 @@ public class TreeInfoFragment extends Fragment {
             mRecyclerView.setLayoutManager(mLayoutManager);
             mRecyclerView.setAdapter(mAdapter);
 
+            mAdapter.setOnItemClickListener(new TreeInfoAdapter.OnItemClickListener() {
+                @Override
+                public void onItemClick(int position) {
+                    Toast.makeText(mainActivity, mTreeInfoList.get(position).getTreeDescription(), Toast.LENGTH_SHORT).show();
+                }
+            });
+
+
             Log.d(TAG, "onCreateView: currentTree: " + currentTree.getTreeName());
 
         } else {
@@ -89,10 +99,12 @@ public class TreeInfoFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Tree t = new Tree();
-                t.setTreeDescription("neuer toller baum");
+                t.setTreeDescription("neuer toller baum " + count);
                 t.setCreated(mTreeInfoList.get(0).getCreated());
-                mTreeInfoList.add(t);
-                mAdapter.notifyDataSetChanged();
+                mTreeInfoList.add(mTreeInfoList.size(), t);
+                mAdapter.notifyItemInserted(mTreeInfoList.size());
+                count++;
+                //mAdapter.notifyDataSetChanged();
             }
         });
 

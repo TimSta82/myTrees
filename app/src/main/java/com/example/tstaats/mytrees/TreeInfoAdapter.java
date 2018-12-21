@@ -16,6 +16,15 @@ public class TreeInfoAdapter extends RecyclerView.Adapter<TreeInfoAdapter.TreeIn
 
     private ArrayList<Tree> mList;
     private ImageLoader mImageLoader;
+    private OnItemClickListener mListener;
+
+    public interface OnItemClickListener {
+        void onItemClick(int position);
+    }
+
+    public void setOnItemClickListener(OnItemClickListener listener){
+        mListener = listener;
+    }
 
     public static class TreeInfoViewHolder extends RecyclerView.ViewHolder{
 
@@ -24,11 +33,23 @@ public class TreeInfoAdapter extends RecyclerView.Adapter<TreeInfoAdapter.TreeIn
         public TextView mTreeInfoDescription;
 
 
-        public TreeInfoViewHolder(@NonNull View itemView) {
+        public TreeInfoViewHolder(@NonNull View itemView, final OnItemClickListener listener) {
             super(itemView);
             mImageView = itemView.findViewById(R.id.image_info);
             mTreeInfoDate = itemView.findViewById(R.id.text_tree_info_date);
             mTreeInfoDescription = itemView.findViewById(R.id.text_tree_info_description);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (listener != null){
+                        int position = getAdapterPosition();
+                        if (position != RecyclerView.NO_POSITION){
+                            listener.onItemClick(position);
+                        }
+                    }
+                }
+            });
         }
     }
 
@@ -36,13 +57,13 @@ public class TreeInfoAdapter extends RecyclerView.Adapter<TreeInfoAdapter.TreeIn
     @Override
     public TreeInfoViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int i) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.tree_info, parent, false);
-        TreeInfoViewHolder holder = new TreeInfoViewHolder(v);
+        TreeInfoViewHolder holder = new TreeInfoViewHolder(v, mListener);
 
         return holder;
     }
 
-    public TreeInfoAdapter(ArrayList<Tree> treeList, ImageLoader loader){
-        mList = treeList;
+    public TreeInfoAdapter(ArrayList<Tree> treeInfoList, ImageLoader loader){
+        mList = treeInfoList;
         mImageLoader = loader;
     }
 
