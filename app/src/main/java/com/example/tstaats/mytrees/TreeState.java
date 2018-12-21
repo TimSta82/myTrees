@@ -1,41 +1,61 @@
 package com.example.tstaats.mytrees;
 
+import java.util.Date;
+
 public class TreeState {
 
-    private String imgUrl;
-    private String created;
-    private String updated;
-    private String stateDescription;
+    private String rootTreeName;
+    private String treeStateImageUrl;
+    private String treeStateDescription;
+    private Date created;
+    private Date updated;
+    private String objectId;
 
-    public String getImgUrl() {
-        return imgUrl;
+    public String getRootTreeName() {
+        return rootTreeName;
     }
 
-    public void setImgUrl(String imgUrl) {
-        this.imgUrl = imgUrl;
+    public void setRootTreeName(String rootTreeName) {
+        this.rootTreeName = rootTreeName;
     }
 
-    public String getCreated() {
+    public String getTreeStateImageUrl() {
+        return treeStateImageUrl;
+    }
+
+    public void setTreeStateImageUrl(String treeStateImageUrl) {
+        this.treeStateImageUrl = treeStateImageUrl;
+    }
+
+    public String getTreeStateDescription() {
+        return treeStateDescription;
+    }
+
+    public void setTreeStateDescription(String treeStateDescription) {
+        this.treeStateDescription = treeStateDescription;
+    }
+
+    public Date getCreated() {
         return created;
     }
 
-    public void setCreated(String created) {
+    public void setCreated(Date created) {
         this.created = created;
     }
 
-    public String getUpdated() {
+    public Date getUpdated() {
         return updated;
     }
 
-    public void setUpdated(String updated) {
+    public void setUpdated(Date updated) {
         this.updated = updated;
     }
 
-    public String getStateDescription() {
-        return stateDescription;
+    public String getObjectId() {
+        return objectId;
     }
 
-    public void setStateDescription(String stateDescription) {
-        this.stateDescription = stateDescription;
+    public void setObjectId(String objectId) {
+        this.objectId = objectId;
     }
 }
