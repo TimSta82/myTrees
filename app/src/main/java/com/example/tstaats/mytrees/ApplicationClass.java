@@ -18,6 +18,7 @@ public class ApplicationClass extends Application {
 
     public static BackendlessUser user;
     public static List<Tree> treeList;
+    public static List<TreeState> treeStateList;
     public static ImageLoader loader;
 
     @Override
