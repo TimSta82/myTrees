@@ -5,6 +5,7 @@ import android.app.Application;
 
 import com.backendless.Backendless;
 import com.backendless.BackendlessUser;
+import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.util.List;
 
@@ -17,6 +18,8 @@ public class ApplicationClass extends Application {
 
     public static BackendlessUser user;
     public static List<Tree> treeList;
+    public static List<TreeState> treeStateList;
+    public static ImageLoader loader;
 
     @Override
     public void onCreate() {

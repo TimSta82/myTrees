@@ -51,22 +51,23 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
-            android:layout_marginTop="30dp"
             android:id="@+id/image_tree"
             android:layout_width="150dp"
             android:layout_height="150dp"
             android:layout_gravity="center_horizontal"
+            android:layout_marginTop="30dp"
             android:src="@drawable/bonsai" />
 
         <Button
             android:id="@+id/btn_camera"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
+            android:layout_marginStart="20dp"
             android:layout_marginTop="30dp"
-            android:layout_marginEnd="8dp"
+            android:layout_marginEnd="20dp"
             android:background="@drawable/button_layout"
-            android:text="Take a picture" />
+            android:text="Take a picture"
+            android:textColor="#ffffff" />
 
         <EditText
             android:id="@+id/et_tree_name"
@@ -93,11 +94,12 @@
             android:id="@+id/btn_confirm"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
+            android:layout_marginStart="20dp"
             android:layout_marginTop="30dp"
-            android:layout_marginEnd="8dp"
+            android:layout_marginEnd="20dp"
             android:background="@drawable/button_layout"
-            android:text="Confirm" />
+            android:text="Confirm"
+            android:textColor="#ffffff" />
 
 
     </LinearLayout>

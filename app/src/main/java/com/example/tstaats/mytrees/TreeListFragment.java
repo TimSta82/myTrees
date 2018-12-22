@@ -8,12 +8,12 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -21,8 +21,6 @@ import com.backendless.Backendless;
 import com.backendless.async.callback.AsyncCallback;
 import com.backendless.exceptions.BackendlessFault;
 import com.backendless.persistence.DataQueryBuilder;
-import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
 import java.util.List;
 
@@ -32,14 +30,16 @@ public class TreeListFragment extends Fragment {
 
     private MainActivity mainActivity;
 
-    private ListView lvList;
+    private RecyclerView mRv;
+    private TreeListAdapter mAdapter;
+    private RecyclerView.LayoutManager mLayoutManager;
+
 
     private View mProgressView;
     public static View mLoginFormViewContactList;
     private TextView tvLoad;
 
     private TextView tvListOfTrees;
-    private TreeAdapter adapter;
 
 
     @Nullable
@@ -50,22 +50,16 @@ public class TreeListFragment extends Fragment {
 
         initContactList(view);
 
-        ImageLoaderConfiguration configuration = new ImageLoaderConfiguration.Builder(getContext()).build();
-        ImageLoader.getInstance().init(configuration);
+        /**
+         * deleting row item via long click
+         */
+//        mRv.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+//            @Override
+//            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+//                return false;
+//            }
+//        });
 
-        lvList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-                Bundle args = new Bundle();
-                args.putInt("position", position);
-
-//                Fragment contactInfoFragment = new ContactInfoFragment();
-//                contactInfoFragment.setArguments(args);
-//                mainActivity.fragmentSwitcher(contactInfoFragment, "ContactInfoFragment", true);
-
-            }
-        });
 
         String whereClause = "userEmail = '" + ApplicationClass.user.getEmail() + "'";
 
@@ -83,8 +77,23 @@ public class TreeListFragment extends Fragment {
 
                 Toast.makeText(mainActivity, "Trees loaded successful", Toast.LENGTH_SHORT).show();
                 ApplicationClass.treeList = response;
-                adapter = new TreeAdapter(mainActivity, response, ImageLoader.getInstance());
-                lvList.setAdapter(adapter);
+
+                mAdapter = new TreeListAdapter(ApplicationClass.treeList, ApplicationClass.loader);
+                mRv.setLayoutManager(mLayoutManager);
+                mRv.setAdapter(mAdapter);
+
+                mAdapter.setOnItemClickListener(new TreeListAdapter.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(int position) {
+                        Bundle args = new Bundle();
+                        args.putInt("position", position);
+
+                        Fragment treeInfoFragment = new TreeInfoFragment();
+                        treeInfoFragment.setArguments(args);
+                        mainActivity.fragmentSwitcher(treeInfoFragment, true);
+                    }
+                });
+
                 showProgress(false);
             }
 
@@ -96,8 +105,6 @@ public class TreeListFragment extends Fragment {
             }
         });
 
-        //adapter.notifyDataSetChanged();
-
         return view;
     }
 
@@ -106,8 +113,10 @@ public class TreeListFragment extends Fragment {
         mLoginFormViewContactList = view.findViewById(R.id.login_form);
         tvLoad = view.findViewById(R.id.tvLoad_treelistfragment);
 
-        lvList = view.findViewById(R.id.lv_tree_list);
+        mRv = view.findViewById(R.id.rv_tree_list);
         tvListOfTrees = view.findViewById(R.id.tv_trees);
+
+        mLayoutManager = new LinearLayoutManager(mainActivity);
     }
 
 

@@ -1,6 +1,8 @@
 package com.example.tstaats.mytrees;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class Tree {
 
@@ -11,6 +13,22 @@ public class Tree {
     private Date updated;
     private String objectId;
     private String userEmail;
+    private List<TreeState> treeStates;
+
+    public void addTreeState(TreeState treeState){
+        if (treeStates == null){
+            treeStates = new ArrayList<>();
+        }
+        treeStates.add(treeState);
+    }
+
+    public List<TreeState> getTreeStates() {
+        return treeStates;
+    }
+
+    public void setTreeStates(List<TreeState> treeStates) {
+        this.treeStates = treeStates;
+    }
 
     public String getUserEmail() {
         return userEmail;
