@@ -77,7 +77,6 @@ public class TreeDetailFragment extends Fragment {
         Bundle args = getArguments();
 
         if (args != null) {
-            //mTreeInfoList = new ArrayList<>();
             mTreeStateList = new ArrayList<>();
             showProgress(false);
             position = args.getInt("position");
@@ -122,6 +121,7 @@ public class TreeDetailFragment extends Fragment {
             tvRootTreeDate.setText(mCurrentTree.getCreated().toString());
 
 
+            // TODO handle item clicks
 //            mAdapter.setOnItemClickListener(new TreeDetailAdapter.OnItemClickListener() {
 //                @Override
 //                public void onItemClick(int position) {
@@ -156,6 +156,14 @@ public class TreeDetailFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
+                Fragment newTreeStateFragment = new NewTreeStateFragment();
+                Bundle args = new Bundle();
+                args.putString(mainActivity.ROOT_TREE_NAME, mCurrentTree.getTreeName());
+                newTreeStateFragment.setArguments(args);
+                mainActivity.fragmentSwitcher(newTreeStateFragment, true);
+
+
+                // TODO saving treeState nach newTreeState portieren
                 // Dummy data for backendless relation test
                 mTreeState = new TreeState();
                 mTreeState.setRootTreeName(mCurrentTree.getTreeName());
@@ -165,7 +173,7 @@ public class TreeDetailFragment extends Fragment {
 
                 mCurrentTree.addTreeState(mTreeState);
 
-                new SaveTreeStateTask().execute(mCurrentTree);
+                //new SaveTreeStateTask().execute(mCurrentTree);
 
                 count++;
             }
@@ -201,16 +209,7 @@ public class TreeDetailFragment extends Fragment {
         protected void onPostExecute(Tree tree) {
             super.onPostExecute(tree);
 
-            //mTreeStateList = (ArrayList<TreeState>) tree.getTreeStates();
             ApplicationClass.treeStateList = tree.getTreeStates();
-
-//            ArrayList<TreeState> currentRootTreeStates = new ArrayList<>();
-//            for (int i = 0; i < mTreeStateList.size(); i++) {
-//                if (mTreeStateList.get(i).getRootTreeName().equals(mCurrentTree.getTreeName())){
-//                    currentRootTreeStates.add(mTreeStateList.get(i));
-//                }
-//            }
-//
             mAdapter.notifyItemInserted(ApplicationClass.treeStateList.size());
         }
     }
