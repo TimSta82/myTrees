@@ -34,7 +34,6 @@ public class TreeListFragment extends Fragment {
     private TreeListAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
 
-
     private View mProgressView;
     public static View mLoginFormViewContactList;
     private TextView tvLoad;
@@ -88,9 +87,9 @@ public class TreeListFragment extends Fragment {
                         Bundle args = new Bundle();
                         args.putInt("position", position);
 
-                        Fragment treeInfoFragment = new TreeInfoFragment();
-                        treeInfoFragment.setArguments(args);
-                        mainActivity.fragmentSwitcher(treeInfoFragment, true);
+                        Fragment treeDetailFragment = new TreeDetailFragment();
+                        treeDetailFragment.setArguments(args);
+                        mainActivity.fragmentSwitcher(treeDetailFragment, true);
                     }
                 });
 
