@@ -52,7 +52,7 @@ public class NewTreeFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_new_tree, container, false);
 
-        initNewContact(view);
+        initNewTree(view);
 
         btnCamera.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -150,7 +150,7 @@ public class NewTreeFragment extends Fragment {
         return view;
     }
 
-    private void initNewContact(View view) {
+    private void initNewTree(View view) {
 
         mProgressView = view.findViewById(R.id.login_progress);
         mLoginFormView = view.findViewById(R.id.login_form);
