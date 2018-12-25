@@ -76,51 +76,51 @@ public class NewTreeFragment extends Fragment {
                     Toast.makeText(mainActivity, "Enter empty fields please", Toast.LENGTH_SHORT).show();
                 } else {
 
-                        mTree = new Tree();
-                        mTree.setTreeName(treeName);
-                        mTree.setTreeDescription(treeDescription);
-                        mTree.setUserEmail(ApplicationClass.user.getEmail());
+                    mTree = new Tree();
+                    mTree.setTreeName(treeName);
+                    mTree.setTreeDescription(treeDescription);
+                    mTree.setUserEmail(ApplicationClass.user.getEmail());
 
-                        showProgress(true);
+                    showProgress(true);
 
-                        tvLoad.setText("Busy uploading image... please wait...");
+                    tvLoad.setText("Busy uploading image... please wait...");
 
-                        String fileName = treeName + ".png";
+                    String fileName = treeName + ".png";
 
-                        Backendless.Files.Android.upload(treeBitmap, Bitmap.CompressFormat.PNG, 100, fileName, BACKENDLESS_FILE_PATH, new AsyncCallback<BackendlessFile>() {
-                            @Override
-                            public void handleResponse(BackendlessFile response) {
+                    Backendless.Files.Android.upload(treeBitmap, Bitmap.CompressFormat.PNG, 100, fileName, BACKENDLESS_FILE_PATH, new AsyncCallback<BackendlessFile>() {
+                        @Override
+                        public void handleResponse(BackendlessFile response) {
 
-                                mTree.setTreeImageUrl(response.getFileURL());
-                                Log.d(TAG, "handleResponse: treeImageUrl: " + response.getFileURL());
-                                Toast.makeText(mainActivity, "Upload successful", Toast.LENGTH_SHORT).show();
-                                showProgress(false);
+                            mTree.setTreeImageUrl(response.getFileURL());
+                            Log.d(TAG, "handleResponse: treeImageUrl: " + response.getFileURL());
+                            Toast.makeText(mainActivity, "Upload successful", Toast.LENGTH_SHORT).show();
+                            showProgress(false);
 
-                                showProgress(true);
-                                tvLoad.setText(getResources().getString(R.string.create_new_tree));
+                            showProgress(true);
+                            tvLoad.setText(getResources().getString(R.string.create_new_tree));
 
-                                Backendless.Persistence.save(mTree, new AsyncCallback<Tree>() {
-                                    @Override
-                                    public void handleResponse(Tree response) {
-                                        Toast.makeText(mainActivity, "Tree saved successfully", Toast.LENGTH_SHORT).show();
+                            Backendless.Persistence.save(mTree, new AsyncCallback<Tree>() {
+                                @Override
+                                public void handleResponse(Tree response) {
+                                    Toast.makeText(mainActivity, "Tree saved successfully", Toast.LENGTH_SHORT).show();
 
-                                        mainActivity.fragmentSwitcher(new MainFragment(), false);
-                                    }
+                                    mainActivity.fragmentSwitcher(new MainFragment(), false);
+                                }
 
-                                    @Override
-                                    public void handleFault(BackendlessFault fault) {
-                                        Toast.makeText(mainActivity, "Error: " + fault.getMessage(), Toast.LENGTH_SHORT).show();
-                                        showProgress(false);
-                                    }
-                                });
-                            }
+                                @Override
+                                public void handleFault(BackendlessFault fault) {
+                                    Toast.makeText(mainActivity, "Error: " + fault.getMessage(), Toast.LENGTH_SHORT).show();
+                                    showProgress(false);
+                                }
+                            });
+                        }
 
-                            @Override
-                            public void handleFault(BackendlessFault fault) {
-                                Toast.makeText(mainActivity, "Error: " + fault.getMessage(), Toast.LENGTH_SHORT).show();
-                                showProgress(false);
-                            }
-                        });
+                        @Override
+                        public void handleFault(BackendlessFault fault) {
+                            Toast.makeText(mainActivity, "Error: " + fault.getMessage(), Toast.LENGTH_SHORT).show();
+                            showProgress(false);
+                        }
+                    });
                 }
             }
         });
@@ -148,13 +148,10 @@ public class NewTreeFragment extends Fragment {
                 treeBitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
                 ivTree.setImageBitmap(treeBitmap);
                 showViews();
-
             } else {
                 hideViews();
             }
-
         }
-
     }
 
     private void showViews() {
