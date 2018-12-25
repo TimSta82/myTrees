@@ -20,8 +20,10 @@ public class MainActivity extends AppCompatActivity {
     public static final String ORIGIN = "origin";
     public static final String MAIN_FRAGMENT = "MainFragment";
     public static final String TREE_DETAIL_FRAGMENT = "TreeDetailFragment";
-    public static final int REQUEST_CODE_MAINFRAGMENT = 0;
-    public static final int REQUEST_CODE_TREEINFOFRAGMENT = 1;
+    public static final String ROOT_TREE_NAME = "rootTreeName";
+
+    public boolean isNewTree = false;
+    public boolean isNewTreeState = false;
 
 
     @Override
@@ -59,9 +61,24 @@ public class MainActivity extends AppCompatActivity {
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
         byte[] byteArray = stream.toByteArray();
+
         Bundle args = new Bundle();
         args.putByteArray("image", byteArray);
-        NewTreeFragment fragment = new NewTreeFragment();
+
+        Fragment fragment = null;
+
+        if (isNewTree == true){
+            Log.d(TAG, "onActivityResult: NewTreeFragment");
+            fragment = new NewTreeFragment();
+            isNewTree = false;
+        }
+
+        if (isNewTreeState == true){
+            Log.d(TAG, "onActivityResult: NewTreeStateFragment");
+            fragment = new NewTreeStateFragment();
+            isNewTreeState = false;
+        }
+
         fragment.setArguments(args);
         fragmentSwitcher(fragment, false);
     }
