@@ -51,28 +51,17 @@ public class NewTreeFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_new_tree, container, false);
+        Log.d(TAG, "onCreateView: is called");
 
         initNewTree(view);
 
         btnCamera.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                if (getArguments() != null) {
-                    String origin = getArguments().getString(mainActivity.ORIGIN);
-                    if (origin.equals(mainActivity.MAIN_FRAGMENT)) {
-                        Log.d(TAG, "onClick: origin: " + origin);
-                        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                        intent.putExtra(mainActivity.ORIGIN, origin);
+            public void onClick(View view) {
+                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                mainActivity.isNewTree = true;
 
-                        startActivityForResult(intent, mainActivity.REQUEST_CODE_MAINFRAGMENT);
-                    } else {
-                        Log.d(TAG, "onClick: origin: " + origin);
-                        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                        intent.putExtra(mainActivity.ORIGIN, origin);
-
-                        startActivityForResult(intent, mainActivity.REQUEST_CODE_TREEINFOFRAGMENT);
-                    }
-                }
+                startActivityForResult(intent, 2);
             }
         });
 
@@ -116,13 +105,6 @@ public class NewTreeFragment extends Fragment {
                                         Toast.makeText(mainActivity, "Tree saved successfully", Toast.LENGTH_SHORT).show();
 
                                         mainActivity.fragmentSwitcher(new MainFragment(), false);
-//                                    showProgress(false);
-//
-//                                    etTreeName.setText("");
-//                                    etTreeDescription.setText("");
-//                                    hideViews();
-//                                    resetTreeImage();
-
                                     }
 
                                     @Override
@@ -139,11 +121,7 @@ public class NewTreeFragment extends Fragment {
                                 showProgress(false);
                             }
                         });
-
-                    }
-
-
-
+                }
             }
         });
 
