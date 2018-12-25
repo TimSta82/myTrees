@@ -12,9 +12,10 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.util.ArrayList;
 
-public class TreeInfoAdapter extends RecyclerView.Adapter<TreeInfoAdapter.TreeInfoViewHolder> {
+public class TreeDetailAdapter extends RecyclerView.Adapter<TreeDetailAdapter.TreeInfoViewHolder> {
 
-    private ArrayList<Tree> mList;
+    //private ArrayList<Tree> mList;
+    private ArrayList<TreeState> mList;
     private ImageLoader mImageLoader;
     private OnItemClickListener mListener;
 
@@ -62,7 +63,7 @@ public class TreeInfoAdapter extends RecyclerView.Adapter<TreeInfoAdapter.TreeIn
         return holder;
     }
 
-    public TreeInfoAdapter(ArrayList<Tree> treeInfoList, ImageLoader loader){
+    public TreeDetailAdapter(ArrayList<TreeState> treeInfoList, ImageLoader loader){
         mList = treeInfoList;
         mImageLoader = loader;
     }
@@ -70,15 +71,17 @@ public class TreeInfoAdapter extends RecyclerView.Adapter<TreeInfoAdapter.TreeIn
     @Override
     public void onBindViewHolder(@NonNull TreeInfoViewHolder holder, int position) {
 
-        Tree currentTree = mList.get(position);
+        //Tree currentTree = mList.get(position);
+        TreeState currentTree = mList.get(position);
 
 //        if (mList.size() > 1){
 //            holder.mImageView.setImageResource(R.drawable.bonsai);
 //        } else {
-            mImageLoader.displayImage(mList.get(position).getTreeImageUrl(), holder.mImageView);
+            //mImageLoader.displayImage(mList.get(position).getTreeImageUrl(), holder.mImageView);
+            mImageLoader.displayImage(mList.get(position).getTreeStateImageUrl(), holder.mImageView);
 //        }
         holder.mTreeInfoDate.setText(currentTree.getCreated().toString());
-        holder.mTreeInfoDescription.setText(currentTree.getTreeDescription());
+        holder.mTreeInfoDescription.setText(currentTree.getTreeStateDescription());
     }
 
     @Override
