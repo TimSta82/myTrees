@@ -71,15 +71,9 @@ public class TreeDetailAdapter extends RecyclerView.Adapter<TreeDetailAdapter.Tr
     @Override
     public void onBindViewHolder(@NonNull TreeInfoViewHolder holder, int position) {
 
-        //Tree currentTree = mList.get(position);
         TreeState currentTree = mList.get(position);
 
-//        if (mList.size() > 1){
-//            holder.mImageView.setImageResource(R.drawable.bonsai);
-//        } else {
-            //mImageLoader.displayImage(mList.get(position).getTreeImageUrl(), holder.mImageView);
-            mImageLoader.displayImage(mList.get(position).getTreeStateImageUrl(), holder.mImageView);
-//        }
+        mImageLoader.displayImage(mList.get(position).getTreeStateImageUrl(), holder.mImageView);
         holder.mTreeInfoDate.setText(currentTree.getCreated().toString());
         holder.mTreeInfoDescription.setText(currentTree.getTreeStateDescription());
     }
