@@ -34,7 +34,7 @@ public class MainFragment extends Fragment {
                 Bundle args = new Bundle();
                 args.putString(mainActivity.ORIGIN, TAG);
                 newTreeFragment.setArguments(args);
-                mainActivity.fragmentSwitcher(newTreeFragment, false);
+                mainActivity.fragmentSwitcher(newTreeFragment, true);
             }
         });
 
