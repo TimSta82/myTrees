@@ -10,4 +10,7 @@
     <string name="login_successful">Logging you in...please wait...</string>
     <string name="get_contacts">Getting all trees...please wait...</string>
     <string name="create_new_tree">Busy creating new tree...please wait...</string>
+    <string name="create_new_tree_state">Busy creating new tree state...please wait...</string>
+    <string name="upload_new_tree_state_image">Busy uploading tree state image\n... please wait...</string>
+
 </resources>
