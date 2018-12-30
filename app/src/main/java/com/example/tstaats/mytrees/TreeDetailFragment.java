@@ -41,7 +41,6 @@ public class TreeDetailFragment extends Fragment {
 
     private TextView tvRootTreeName;
     private Button btnShowRootTree;
-    private boolean isRootTreeVisibil = false;
 
     private CardView cv;
     private ImageView ivRootTree;
@@ -55,11 +54,7 @@ public class TreeDetailFragment extends Fragment {
     private ImageLoader mLoader;
 
     private Tree mCurrentTree;
-    private ArrayList<Tree> mTreeInfoList;
     private ArrayList<TreeState> mTreeStateList;
-
-    private TreeState mTreeState;
-    private int count = 0;
 
     private int position;
 
@@ -156,63 +151,17 @@ public class TreeDetailFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
+                ApplicationClass.rootTree = mCurrentTree;
+                ApplicationClass.position = position;
                 Fragment newTreeStateFragment = new NewTreeStateFragment();
-                Bundle args = new Bundle();
-                args.putString(mainActivity.ROOT_TREE_NAME, mCurrentTree.getTreeName());
-                newTreeStateFragment.setArguments(args);
                 mainActivity.fragmentSwitcher(newTreeStateFragment, true);
 
-
-                // TODO saving treeState nach newTreeState portieren
-                // Dummy data for backendless relation test
-                mTreeState = new TreeState();
-                mTreeState.setRootTreeName(mCurrentTree.getTreeName());
-                mTreeState.setTreeStateDescription("Krasse neue info " + count);
-                mTreeState.setTreeStateImageUrl("https://backendlessappcontent.com/7E4037CC-1A42-F063-FF97-4482E7BA9000/" +
-                        "913ACE63-EFF8-1DFA-FF1E-D502D1163300/files/treepics/Dachs.png");
-
-                mCurrentTree.addTreeState(mTreeState);
-
-                //new SaveTreeStateTask().execute(mCurrentTree);
-
-                count++;
             }
         });
 
         return view;
     }
 
-    private class SaveTreeStateTask extends AsyncTask<Tree, Void, Tree>{
-
-        @Override
-        protected Tree doInBackground(Tree... trees) {
-            Tree tree = trees[0];
-
-            List<TreeState> treeStateList = mCurrentTree.getTreeStates();
-            List<TreeState> savedTreeStates = new ArrayList<TreeState>();
-
-            for (TreeState treeState: treeStateList) {
-                TreeState savedTreeState = Backendless.Data.of(TreeState.class).save(treeState);
-                savedTreeStates.add(savedTreeState);
-            }
-
-            Tree savedTree = Backendless.Data.of(Tree.class).save(tree);
-            Backendless.Data.of(Tree.class).addRelation(savedTree,
-                    "treeStates:TreeState:n",
-                    savedTreeStates);
-            savedTree.setTreeStates(savedTreeStates);
-
-            return savedTree;
-        }
-
-        @Override
-        protected void onPostExecute(Tree tree) {
-            super.onPostExecute(tree);
-
-            ApplicationClass.treeStateList = tree.getTreeStates();
-            mAdapter.notifyItemInserted(ApplicationClass.treeStateList.size());
-        }
-    }
 
 
     private void initInfo(View view) {
