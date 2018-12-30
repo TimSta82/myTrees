@@ -18,9 +18,6 @@ public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "MainActivity";
     public static final String ORIGIN = "origin";
-    public static final String MAIN_FRAGMENT = "MainFragment";
-    public static final String TREE_DETAIL_FRAGMENT = "TreeDetailFragment";
-    public static final String ROOT_TREE_NAME = "rootTreeName";
 
     public boolean isNewTree = false;
     public boolean isNewTreeState = false;
