@@ -20,6 +20,7 @@ public class ApplicationClass extends Application {
     public static List<Tree> treeList;
     public static Tree rootTree;
     public static List<TreeState> treeStateList;
+    public static int position;
     public static ImageLoader loader;
 
     @Override
