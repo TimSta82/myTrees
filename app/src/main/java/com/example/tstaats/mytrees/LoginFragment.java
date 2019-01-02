@@ -64,7 +64,7 @@ public class LoginFragment extends Fragment {
                             ApplicationClass.user = response;
                             Toast.makeText(mainActivity, "Logged in successfully", Toast.LENGTH_SHORT).show();
 
-                            mainActivity.fragmentSwitcher(new MainFragment(), false);
+                            mainActivity.fragmentSwitcher(new MainFragment(), false, "MainFragment");
                         }
 
                         @Override
@@ -80,7 +80,7 @@ public class LoginFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 RegisterFragment registerFragment = new RegisterFragment();
-                mainActivity.fragmentSwitcher(registerFragment, true);
+                mainActivity.fragmentSwitcher(registerFragment, true, "RegisterFragment");
             }
         });
 
@@ -98,7 +98,7 @@ public class LoginFragment extends Fragment {
                         @Override
                         public void handleResponse(BackendlessUser response) {
                             ApplicationClass.user = response;
-                            mainActivity.fragmentSwitcher(new MainFragment(), false);
+                            mainActivity.fragmentSwitcher(new MainFragment(), false, "MainFragment");
                         }
 
                         @Override

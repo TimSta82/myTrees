@@ -34,14 +34,14 @@ public class MainFragment extends Fragment {
                 Bundle args = new Bundle();
                 args.putString(mainActivity.ORIGIN, TAG);
                 newTreeFragment.setArguments(args);
-                mainActivity.fragmentSwitcher(newTreeFragment, true);
+                mainActivity.fragmentSwitcher(newTreeFragment, true, "NewTreeFragment");
             }
         });
 
         btnTreeList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mainActivity.fragmentSwitcher(new TreeListFragment(), true);
+                mainActivity.fragmentSwitcher(new TreeListFragment(), true, "TreeListFragment");
             }
         });
 

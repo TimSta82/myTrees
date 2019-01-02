@@ -35,16 +35,16 @@ public class MainActivity extends AppCompatActivity {
         ApplicationClass.loader = ImageLoader.getInstance();
 
         LoginFragment loginFragment = new LoginFragment();
-        fragmentSwitcher(loginFragment, true);
+        fragmentSwitcher(loginFragment, true, TAG);
 
         Log.d(TAG, "onCreate: test commit");
 
         
     }
 
-    public void fragmentSwitcher(Fragment fragment, boolean toBackStack){
+    public void fragmentSwitcher(Fragment fragment, boolean toBackStack, String tag){
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.fragment_container, fragment);
+        transaction.replace(R.id.fragment_container, fragment, tag);
         if(toBackStack){
             transaction.addToBackStack(null);
         }
@@ -63,20 +63,24 @@ public class MainActivity extends AppCompatActivity {
         args.putByteArray("image", byteArray);
 
         Fragment fragment = null;
+        String fragmentName = "";
 
         if (isNewTree == true){
             Log.d(TAG, "onActivityResult: NewTreeFragment");
             fragment = new NewTreeFragment();
+            fragmentName = "NewTreeFragment";
             isNewTree = false;
         }
 
         if (isNewTreeState == true){
             Log.d(TAG, "onActivityResult: NewTreeStateFragment");
             fragment = new NewTreeStateFragment();
+            fragmentName = "NewTreeStateFragment";
+
             isNewTreeState = false;
         }
 
         fragment.setArguments(args);
-        fragmentSwitcher(fragment, false);
+        fragmentSwitcher(fragment, false, fragmentName);
     }
 }

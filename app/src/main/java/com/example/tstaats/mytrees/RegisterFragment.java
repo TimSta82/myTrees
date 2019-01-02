@@ -64,7 +64,7 @@ public class RegisterFragment extends Fragment {
                             @Override
                             public void handleResponse(BackendlessUser response) {
                                 Toast.makeText(mainActivity, "User successfully registered", Toast.LENGTH_SHORT).show();
-                                mainActivity.fragmentSwitcher(new LoginFragment(),  false);
+                                mainActivity.fragmentSwitcher(new LoginFragment(),  false, "LoginFragment");
                             }
 
                             @Override

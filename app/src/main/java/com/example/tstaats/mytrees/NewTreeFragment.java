@@ -104,7 +104,7 @@ public class NewTreeFragment extends Fragment {
                                 public void handleResponse(Tree response) {
                                     Toast.makeText(mainActivity, "Tree saved successfully", Toast.LENGTH_SHORT).show();
 
-                                    mainActivity.fragmentSwitcher(new MainFragment(), false);
+                                    mainActivity.fragmentSwitcher(new MainFragment(), false, "MainFragment");
                                 }
 
                                 @Override

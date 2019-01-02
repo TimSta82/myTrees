@@ -89,7 +89,7 @@ public class TreeListFragment extends Fragment {
 
                         Fragment treeDetailFragment = new TreeDetailFragment();
                         treeDetailFragment.setArguments(args);
-                        mainActivity.fragmentSwitcher(treeDetailFragment, true);
+                        mainActivity.fragmentSwitcher(treeDetailFragment, true, "TreeDetailFragment");
                     }
                 });
 

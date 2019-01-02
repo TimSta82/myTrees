@@ -164,7 +164,7 @@ public class NewTreeStateFragment extends Fragment {
             args.putInt("position", ApplicationClass.position);
             treeDetailFragment.setArguments(args);
 
-            mainActivity.fragmentSwitcher(treeDetailFragment, true);
+            mainActivity.fragmentSwitcher(treeDetailFragment, true, "TreeDetailFragment");
         }
     }
 
