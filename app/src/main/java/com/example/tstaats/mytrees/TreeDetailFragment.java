@@ -28,6 +28,7 @@ import com.backendless.persistence.DataQueryBuilder;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class TreeDetailFragment extends Fragment {
@@ -113,19 +114,20 @@ public class TreeDetailFragment extends Fragment {
             mLoader.displayImage(mCurrentTree.getTreeImageUrl(), ivRootTree);
             tvRootTreeName.setText(mCurrentTree.getTreeName());
             tvRootTreeDescription.setText(mCurrentTree.getTreeDescription());
-            tvRootTreeDate.setText(mCurrentTree.getCreated().toString());
+            Date date = mCurrentTree.getCreated();
+            String d = date.toLocaleString();
+            tvRootTreeDate.setText(d);
 
 
             // TODO handle item clicks
 //            mAdapter.setOnItemClickListener(new TreeDetailAdapter.OnItemClickListener() {
 //                @Override
 //                public void onItemClick(int position) {
-//                    //Toast.makeText(mainActivity, mTreeInfoList.get(position).getTreeDescription(), Toast.LENGTH_SHORT).show();
-//                    Toast.makeText(mainActivity, mTreeStateList.get(position).getTreeStateDescription(), Toast.LENGTH_SHORT).show();
+//                    Log.d(TAG, "onItemClick: click");
+//                    Toast.makeText(mainActivity, mCurrentTree.getTreeStates().get(position).getTreeStateDescription(), Toast.LENGTH_SHORT).show();
 //                }
 //            });
 
-            Log.d(TAG, "onCreateView: mCurrentTree: " + mCurrentTree.getTreeName());
 
         } else {
             showProgress(false);

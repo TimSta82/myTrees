@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 public class TreeDetailAdapter extends RecyclerView.Adapter<TreeDetailAdapter.TreeInfoViewHolder> {
 
@@ -74,7 +75,9 @@ public class TreeDetailAdapter extends RecyclerView.Adapter<TreeDetailAdapter.Tr
         TreeState currentTree = mList.get(position);
 
         mImageLoader.displayImage(mList.get(position).getTreeStateImageUrl(), holder.mImageView);
-        holder.mTreeInfoDate.setText(currentTree.getCreated().toString());
+        Date date = currentTree.getCreated();
+        String d = date.toLocaleString();
+        holder.mTreeInfoDate.setText(d);
         holder.mTreeInfoDescription.setText(currentTree.getTreeStateDescription());
     }
 
