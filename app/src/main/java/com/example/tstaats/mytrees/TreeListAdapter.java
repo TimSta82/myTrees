@@ -11,6 +11,9 @@ import android.widget.TextView;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
 
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 public class TreeListAdapter extends RecyclerView.Adapter<TreeListAdapter.TreeListViewHolder> {
@@ -37,9 +40,12 @@ public class TreeListAdapter extends RecyclerView.Adapter<TreeListAdapter.TreeLi
 
         public TreeListViewHolder(@NonNull View itemView, final OnItemClickListener listener) {
             super(itemView);
-            mImageView = itemView.findViewById(R.id.image_tree_thumb);
-            mTreeName = itemView.findViewById(R.id.text_tree_name);
-            mTreeDate = itemView.findViewById(R.id.text_tree_date);
+            //mImageView = itemView.findViewById(R.id.image_tree_thumb);
+            mImageView = itemView.findViewById(R.id.image_root_tree_cardview);
+            //mTreeName = itemView.findViewById(R.id.text_tree_name);
+            mTreeName = itemView.findViewById(R.id.text_root_tree_name_cardview);
+            //mTreeDate = itemView.findViewById(R.id.text_tree_date);
+            mTreeDate = itemView.findViewById(R.id.text_root_tree_date_cardview);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -63,7 +69,8 @@ public class TreeListAdapter extends RecyclerView.Adapter<TreeListAdapter.TreeLi
     @NonNull
     @Override
     public TreeListViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int i) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.row_layout, parent, false);
+        //View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.row_layout, parent, false);
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.cardview_root_tree, parent, false);
         TreeListViewHolder holder = new TreeListViewHolder(v, mListener);
 
         return holder;
@@ -76,7 +83,11 @@ public class TreeListAdapter extends RecyclerView.Adapter<TreeListAdapter.TreeLi
 
         mImageLoader.displayImage(mTreeList.get(position).getTreeImageUrl(), holder.mImageView);
         holder.mTreeName.setText(currentTree.getTreeName());
-        holder.mTreeDate.setText(currentTree.getCreated().toString());
+        Date date = currentTree.getCreated();
+        //Log.d(TAG, "onBindViewHolder: date: " + date.getDate() + "." + date.getMonth() + "." + date.getYear() + " " + date.toLocaleString());
+        String d = date.toLocaleString();
+        //Log.d(TAG, "onBindViewHolder: date: " + date);
+        holder.mTreeDate.setText(d);
 
     }
 
